@@ -455,6 +455,153 @@ blockquote {
   line-height: 1.55;
 }
 
+.next-step {
+  display: grid;
+  grid-template-columns: minmax(260px, .9fr) minmax(320px, 1.1fr);
+  gap: clamp(2rem, 5vw, 5rem);
+  align-items: center;
+  padding: clamp(3rem, 7vw, 7rem) clamp(1.5rem, 8vw, 8rem);
+}
+
+.next-step-copy {
+  min-width: 0;
+}
+
+.next-step-copy h2 {
+  max-width: 620px;
+  font-size: clamp(2.8rem, 5.6vw, 5.4rem);
+  line-height: .95;
+}
+
+.next-step-copy p {
+  max-width: 540px;
+  color: rgba(23, 58, 85, .86);
+  font-weight: 700;
+}
+
+.next-step-list {
+  display: grid;
+  gap: .8rem;
+  margin: 1.4rem 0 0;
+  padding: 0;
+  color: var(--ink);
+  font-weight: 800;
+  list-style: none;
+}
+
+.next-step-list li {
+  position: relative;
+  padding-left: 1.25rem;
+}
+
+.next-step-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: .62em;
+  width: .45rem;
+  height: .45rem;
+  border-radius: 50%;
+  background: var(--pink);
+  box-shadow: 0 0 0 4px rgba(247, 174, 201, .24);
+}
+
+.path-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .7rem;
+  max-width: 620px;
+  margin-top: 1.7rem;
+}
+
+.path-links a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: .65rem 1rem;
+  border: 1px solid rgba(23, 58, 85, .18);
+  background: rgba(246, 255, 210, .72);
+  color: var(--ink);
+  font-weight: 900;
+  transition: transform .2s ease, background .2s ease;
+}
+
+.path-links a:hover {
+  transform: translateY(-2px);
+  background: var(--cream);
+}
+
+.contact-form {
+  display: grid;
+  gap: 1rem;
+  min-width: 0;
+  padding: clamp(1.25rem, 3vw, 2rem);
+  border: 1px solid rgba(23, 58, 85, .1);
+  background: rgba(255, 255, 255, .82);
+  box-shadow: 0 28px 70px rgba(23, 58, 85, .2);
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.contact-form label {
+  display: grid;
+  gap: .45rem;
+  min-width: 0;
+}
+
+.contact-form span {
+  color: rgba(23, 58, 85, .72);
+  font-size: .78rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.contact-form input,
+.contact-form select,
+.contact-form textarea {
+  width: 100%;
+  min-width: 0;
+  border: 1px solid rgba(23, 58, 85, .14);
+  border-radius: 0;
+  background: rgba(255, 255, 255, .92);
+  color: var(--ink);
+  font: inherit;
+  font-weight: 700;
+  outline: 0;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .7);
+  transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
+}
+
+.contact-form input,
+.contact-form select {
+  min-height: 52px;
+  padding: 0 .95rem;
+}
+
+.contact-form textarea {
+  resize: vertical;
+  padding: .9rem .95rem;
+}
+
+.contact-form input:focus,
+.contact-form select:focus,
+.contact-form textarea:focus {
+  border-color: rgba(23, 58, 85, .42);
+  background: #fff;
+  box-shadow: 0 0 0 4px rgba(169, 186, 145, .28);
+}
+
+.contact-form button {
+  justify-self: start;
+  border: 0;
+  cursor: pointer;
+}
+
 .values-band {
   display: grid;
   grid-template-columns: minmax(240px, .75fr) minmax(0, 1.25fr);
@@ -911,7 +1058,8 @@ blockquote {
   .event-ritual,
   .ritual-grid,
   .content-journal,
-  .corporate-care {
+  .corporate-care,
+  .next-step {
     grid-template-columns: 1fr;
   }
 
@@ -935,13 +1083,15 @@ blockquote {
 
 @media (max-width: 560px) {
   .site-header { padding: 1rem; }
-  .hero-clean, .section-copy, .intro > div, .meditation-block > div, .packages, .offer-grid, .cards, .testimonials, .footer, .about-soul-copy, .photo-strip, .values-band, .event-ritual, .content-journal, .corporate-care > div {
+  .hero-clean, .section-copy, .intro > div, .meditation-block > div, .packages, .offer-grid, .cards, .testimonials, .footer, .about-soul-copy, .photo-strip, .values-band, .event-ritual, .content-journal, .corporate-care > div, .next-step {
     padding-left: 1.25rem;
     padding-right: 1.25rem;
   }
 
   h1 { font-size: clamp(2.8rem, 15vw, 4rem); }
   h2 { font-size: clamp(2rem, 11vw, 3rem); }
+  .form-row { grid-template-columns: 1fr; }
+  .contact-form { padding: 1rem; }
   .strip-gallery { grid-template-columns: 1fr; }
   .hero-visual { min-height: 360px; }
   .hero-visual .portrait { width: 82%; }
