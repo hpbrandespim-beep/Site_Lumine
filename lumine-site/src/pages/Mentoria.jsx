@@ -23,7 +23,7 @@ const packages = [
 export default function Mentoria() {
   return (
     <main>
-      <PageHead className="soft-head" title="Um caminho para a transformação">
+      <PageHead className="photo-head mentoria-head" title="Um caminho para a transformação">
         Descubra quem você realmente é e como agir para ressoar a sua verdadeira essência.
       </PageHead>
       <section className="packages blush">

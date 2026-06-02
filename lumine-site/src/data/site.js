@@ -8,17 +8,19 @@ export const whatsappLinks = {
   corporate: 'https://wa.me/5544984282600?text=Ol%C3%A1%2C%20gostaria%20de%20uma%20proposta%20da%20Lumine%20para%20empresa.',
 };
 
+export const waitlistFormLink = 'https://docs.google.com/forms/d/e/1FAIpQLSdY1kbMgB5xgqM22mYmJ7-oHEiBYUvpJpXsKWkPRKeQZa-CzA/viewform';
+
 export const navigation = [
   { label: 'Mentoria', to: '/mentoria.html' },
   { label: 'Serviços', to: '/servicos.html' },
   { label: 'Meditação', to: '/meditacao.html' },
   { label: 'Eventos', to: '/eventos.html' },
-  { label: 'Conteúdo', to: '/conteudo.html' },
-  { label: 'B2B', to: '/b2b.html' },
+  { label: 'Blog', to: '/conteudo.html' },
+  { label: 'Empresas', to: '/b2b.html' },
 ];
 
 export const socials = [
   { label: 'Instagram', href: 'https://instagram.com/lumineclub_', className: 'icon-instagram', icon: 'instagram' },
   { label: 'TikTok', href: 'https://tiktok.com/@ilumine.luna', className: 'icon-tiktok', icon: 'tiktok' },
-  { label: 'YouTube', href: 'https://www.youtube.com/@lunabmachado', className: 'icon-youtube', icon: 'youtube' },
+  { label: 'E-mail', href: '/b2b.html#agendamento', className: 'icon-email', icon: 'email' },
 ];

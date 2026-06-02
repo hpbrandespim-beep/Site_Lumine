@@ -1,9 +1,9 @@
 export function InstagramIcon() {
   return (
     <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false">
-      <rect x="13" y="13" width="38" height="38" rx="11" fill="none" stroke="currentColor" strokeWidth="4.5" />
-      <circle cx="32" cy="32" r="8.4" fill="none" stroke="currentColor" strokeWidth="4.5" />
-      <circle cx="43.2" cy="20.9" r="3" fill="currentColor" />
+      <rect x="14" y="14" width="36" height="36" rx="10" fill="none" stroke="currentColor" strokeWidth="5" />
+      <circle cx="32" cy="32" r="8.5" fill="none" stroke="currentColor" strokeWidth="5" />
+      <circle cx="42.5" cy="21.5" r="3.2" fill="currentColor" />
     </svg>
   );
 }
@@ -13,17 +13,17 @@ export function TikTokIcon() {
     <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false">
       <path
         fill="currentColor"
-        d="M37.7 10.5h8.2c.8 4.9 3.8 8 9.1 8.4v8.3c-3.3.1-6.3-.8-9.1-2.6v14.8c0 7.6-5 13.8-12.8 14.4-7.4.6-13.7-4.1-14.8-11.3-1.1-7.8 4.8-14.4 12.5-14.8 1.1-.1 2.2 0 3.4.3v8.7c-1-.4-2-.5-3.1-.3-2.6.5-4.5 2.8-4.3 5.5.2 2.9 2.7 5 5.7 4.7 3.1-.3 5.4-2.7 5.4-6.2V10.5Z"
+        d="M38.4 10h8.1c.7 5.2 3.8 8.6 9.5 9v8.3c-3.5.1-6.6-.9-9.5-2.8v15.2c0 8-5.4 14.4-13.4 14.9-7.7.5-14.1-4.5-15.1-11.8-1.1-7.9 5-14.7 12.8-15.1 1-.1 2.2 0 3.2.2v8.8c-.9-.3-1.8-.4-2.8-.3-2.6.4-4.6 2.7-4.4 5.4.2 2.9 2.7 5 5.7 4.7 3.2-.3 5.4-2.7 5.4-6.3V10Z"
       />
     </svg>
   );
 }
 
-export function YouTubeIcon() {
+export function EmailIcon() {
   return (
     <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false">
-      <rect x="7" y="18" width="50" height="28" rx="8" fill="none" stroke="currentColor" strokeWidth="4.5" />
-      <path d="M28 24.8 42 32 28 39.2Z" fill="currentColor" />
+      <rect x="10" y="17" width="44" height="31" rx="4" fill="none" stroke="currentColor" strokeWidth="5" />
+      <path d="m12 20 20 16 20-16" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="5" />
     </svg>
   );
 }

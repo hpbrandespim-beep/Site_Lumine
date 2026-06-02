@@ -1,10 +1,10 @@
 import { socials } from '../data/site.js';
-import { InstagramIcon, TikTokIcon, YouTubeIcon } from './BrandIcons.jsx';
+import { EmailIcon, InstagramIcon, TikTokIcon } from './BrandIcons.jsx';
 
 const icons = {
+  email: EmailIcon,
   instagram: InstagramIcon,
   tiktok: TikTokIcon,
-  youtube: YouTubeIcon,
 };
 
 export default function SocialLinks({ label = 'Redes sociais', className = 'socials' }) {
@@ -12,6 +12,7 @@ export default function SocialLinks({ label = 'Redes sociais', className = 'soci
     <div className={className} aria-label={label}>
       {socials.map((social) => {
         const Icon = icons[social.icon];
+        const opensNewTab = /^(https?:|mailto:)/.test(social.href);
 
         return (
           <a
@@ -20,8 +21,8 @@ export default function SocialLinks({ label = 'Redes sociais', className = 'soci
             href={social.href}
             aria-label={social.label}
             title={social.label}
-            target="_blank"
-            rel="noreferrer"
+            target={opensNewTab ? '_blank' : undefined}
+            rel={opensNewTab ? 'noreferrer' : undefined}
           >
             {Icon && <Icon />}
             <span className="sr-only">{social.label}</span>

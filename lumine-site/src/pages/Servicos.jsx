@@ -14,7 +14,7 @@ export default function Servicos() {
           { href: '/mentoria.html', image: asset('photo-mentoria-iluminada.png'), alt: 'Mentoria individual', title: 'Mentoria', text: 'Pacotes Luz e Iluminada para transformação individual.' },
           { href: '/meditacao.html', image: asset('photo-meditation.png'), alt: 'Meditação guiada', title: 'Meditação', text: 'Uma meditação guiada disponível para compra.' },
           { href: '/eventos.html', image: asset('photo-vivencia.png'), alt: 'Vivência presencial', title: 'Eventos', text: 'Vivências presenciais divididas por cidade.' },
-          { href: '/b2b.html', image: asset('photo-retiro.png'), alt: 'Experiência de cuidado coletivo', title: 'B2B', text: 'Propostas de bem-estar para empresas e colaboradores.' },
+          { href: '/b2b.html', image: asset('photo-retiro.png'), alt: 'Experiência de cuidado coletivo', title: 'Empresas', text: 'Propostas de bem-estar para empresas e colaboradores.' },
         ]}
       />
     </main>
