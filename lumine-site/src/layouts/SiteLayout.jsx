@@ -4,7 +4,6 @@ import { WhatsAppIcon } from '../components/BrandIcons.jsx';
 import SocialLinks from '../components/SocialLinks.jsx';
 import { navigation, whatsappLinks } from '../data/site.js';
 import { trackPageView } from '../utils/analytics.js';
-import { useRevealOnScroll } from '../hooks/useRevealOnScroll.js';
 
 const defaultMeta = {
   title: 'Lumine | Autoconhecimento e presença',
@@ -81,24 +80,34 @@ const routeMeta = {
     description: 'Experiências e propostas da Lumine para empresas que desejam cuidar de pessoas de forma mais humana.',
     robots: 'index, follow',
   },
+  '/admin.html': {
+    title: 'Área Lumine | Painel',
+    description: 'Painel interno da Lumine.',
+    robots: 'noindex, nofollow',
+  },
+  '/admin': {
+    title: 'Área Lumine | Painel',
+    description: 'Painel interno da Lumine.',
+    robots: 'noindex, nofollow',
+  },
   '/admin-eventos.html': {
-    title: 'Área Lumine | Eventos',
-    description: 'Painel interno de eventos da Lumine.',
+    title: 'Área Lumine | Painel',
+    description: 'Painel interno da Lumine.',
     robots: 'noindex, nofollow',
   },
   '/admin-eventos': {
-    title: 'Área Lumine | Eventos',
-    description: 'Painel interno de eventos da Lumine.',
+    title: 'Área Lumine | Painel',
+    description: 'Painel interno da Lumine.',
     robots: 'noindex, nofollow',
   },
   '/admin-conteudo.html': {
-    title: 'Área Lumine | Conteúdo',
-    description: 'Painel interno de conteúdo da Lumine.',
+    title: 'Área Lumine | Painel',
+    description: 'Painel interno da Lumine.',
     robots: 'noindex, nofollow',
   },
   '/admin-conteudo': {
-    title: 'Área Lumine | Conteúdo',
-    description: 'Painel interno de conteúdo da Lumine.',
+    title: 'Área Lumine | Painel',
+    description: 'Painel interno da Lumine.',
     robots: 'noindex, nofollow',
   },
 };
@@ -125,8 +134,6 @@ export default function SiteLayout() {
   const whatsappCta = isCorporate
     ? { href: whatsappLinks.corporate, label: 'Solicitar proposta' }
     : { href: whatsappLinks.general, label: 'Falar pelo WhatsApp' };
-
-  useRevealOnScroll(pathname);
 
   useEffect(() => {
     const meta = routeMeta[pathname] || notFoundMeta;
@@ -190,10 +197,7 @@ export default function SiteLayout() {
             <span>@lunabmachado</span>
             <span>@lumineclub_</span>
           </p>
-          <div className="footer-admin-links">
-            <NavLink className="footer-admin-link" to="/admin-eventos.html">Eventos</NavLink>
-            <NavLink className="footer-admin-link" to="/admin-conteudo.html">Conteúdo</NavLink>
-          </div>
+          <NavLink className="footer-admin-link" to="/admin.html">Área Lumine</NavLink>
         </div>
         <div className="footer-actions" aria-label="Canais de contato">
           <SocialLinks className="socials footer-socials" />

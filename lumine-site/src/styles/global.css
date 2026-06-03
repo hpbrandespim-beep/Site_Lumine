@@ -1647,13 +1647,6 @@ nav a.is-active::after {
   transform: translateY(-1px);
 }
 
-.footer-admin-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: .65rem;
-  margin-top: .15rem;
-}
-
 .footer-actions {
   display: flex;
   align-items: center;
@@ -2656,6 +2649,50 @@ nav a.is-active::after {
   flex-wrap: wrap;
   justify-content: flex-end;
   gap: .55rem;
+}
+
+.admin-panel-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .55rem;
+  width: fit-content;
+  max-width: 100%;
+  padding: .45rem;
+  border: 1px solid rgba(var(--blue-rgb), .12);
+  border-radius: 999px;
+  background: rgba(var(--cream-rgb), .72);
+  box-shadow: 0 18px 42px rgba(var(--blue-rgb), .08);
+}
+
+.admin-panel-tab {
+  min-height: 42px;
+  padding: .62rem 1rem;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: rgba(var(--blue-rgb), .72);
+  font: inherit;
+  font-size: .82rem;
+  font-weight: 900;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color .2s ease, background .2s ease, transform .2s ease;
+}
+
+.admin-panel-tab:hover {
+  color: var(--ink);
+  transform: translateY(-1px);
+}
+
+.admin-panel-tab.is-active {
+  background: var(--blue);
+  color: var(--cream);
+}
+
+.admin-panel-section {
+  display: grid;
+  gap: clamp(1rem, 2.4vw, 1.8rem);
 }
 
 .admin-events-grid {
@@ -4021,27 +4058,7 @@ nav a.is-active::after {
   }
 }
 
-.reveal-on-scroll {
-  opacity: 0;
-  transform: translate3d(0, 22px, 0);
-  transition:
-    opacity .62s ease var(--reveal-delay, 0ms),
-    transform .62s cubic-bezier(.2, .72, .24, 1) var(--reveal-delay, 0ms);
-  will-change: opacity, transform;
-}
-
-.reveal-on-scroll.is-visible {
-  opacity: 1;
-  transform: translate3d(0, 0, 0);
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .reveal-on-scroll {
-    opacity: 1;
-    transform: none;
-    transition: none;
-  }
-
   .luna-flower,
   .home-luna.is-visible .luna-flower {
     animation: none;
