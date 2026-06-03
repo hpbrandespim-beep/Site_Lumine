@@ -28,12 +28,25 @@ export default function Home() {
   const [isLunaVisible, setIsLunaVisible] = useState(false);
   const [flowerFrame, setFlowerFrame] = useState(1);
   const [isStoryCardOpen, setIsStoryCardOpen] = useState(false);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(() => (
+    typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  ));
   const lunaCopyRef = useRef(null);
   const lunaVisibleRef = useRef(false);
   const flowerRafRef = useRef(0);
 
   const currentTestimonial = testimonials[activeTestimonial];
-  const flowerFrameSrc = asset(`flower-seq-40/frame-${String(flowerFrame).padStart(2, '0')}.png`);
+  const flowerFrameSrc = asset(`flower-seq-40/frame-${String(prefersReducedMotion ? 40 : flowerFrame).padStart(2, '0')}.png`);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const updatePreference = () => setPrefersReducedMotion(mediaQuery.matches);
+
+    updatePreference();
+    mediaQuery.addEventListener('change', updatePreference);
+
+    return () => mediaQuery.removeEventListener('change', updatePreference);
+  }, []);
 
   useEffect(() => {
     const timer = window.setInterval(() => {
@@ -46,17 +59,31 @@ export default function Home() {
   useEffect(() => {
     const maxFrame = 40;
     const preloaded = [];
+    const preloadFrames = () => {
+      for (let index = 1; index <= maxFrame; index += 1) {
+        const image = new window.Image();
+        image.src = asset(`flower-seq-40/frame-${String(index).padStart(2, '0')}.png`);
+        preloaded.push(image);
+      }
+    };
 
-    for (let index = 1; index <= maxFrame; index += 1) {
-      const image = new window.Image();
-      image.src = asset(`flower-seq-40/frame-${String(index).padStart(2, '0')}.png`);
-      preloaded.push(image);
+    if (prefersReducedMotion) return undefined;
+
+    let idleId = 0;
+    let timeoutId = 0;
+
+    if ('requestIdleCallback' in window) {
+      idleId = window.requestIdleCallback(preloadFrames, { timeout: 1800 });
+    } else {
+      timeoutId = window.setTimeout(preloadFrames, 900);
     }
 
     return () => {
+      if (idleId) window.cancelIdleCallback(idleId);
+      if (timeoutId) window.clearTimeout(timeoutId);
       preloaded.length = 0;
     };
-  }, []);
+  }, [prefersReducedMotion]);
 
   useEffect(() => {
     const section = lunaCopyRef.current;
@@ -87,6 +114,11 @@ export default function Home() {
     if (flowerRafRef.current) {
       window.cancelAnimationFrame(flowerRafRef.current);
       flowerRafRef.current = 0;
+    }
+
+    if (prefersReducedMotion) {
+      setFlowerFrame(maxFrame);
+      return undefined;
     }
 
     if (!isLunaVisible) {
@@ -120,7 +152,7 @@ export default function Home() {
         flowerRafRef.current = 0;
       }
     };
-  }, [isLunaVisible]);
+  }, [isLunaVisible, prefersReducedMotion]);
 
   function moveTestimonial(direction) {
     setActiveTestimonial((current) => (
@@ -135,9 +167,11 @@ export default function Home() {
   return (
     <main className="home-page">
       <section className="hero-clean">
-        <video className="hero-bg-video" autoPlay muted loop playsInline poster={asset('leaves-motion-poster.jpg')} aria-hidden="true">
-          <source src={asset('leaves-motion.mp4')} type="video/mp4" />
-        </video>
+        {!prefersReducedMotion && (
+          <video className="hero-bg-video" autoPlay muted loop playsInline preload="metadata" poster={asset('leaves-motion-poster.jpg')} aria-hidden="true">
+            <source src={asset('leaves-motion.mp4')} type="video/mp4" />
+          </video>
+        )}
         <div className="hero-copy">
           <p className="kicker">Mentorias, experiências e conversas profundas</p>
           <h1>Há partes suas que ainda esperam ser vistas.</h1>
@@ -156,12 +190,12 @@ export default function Home() {
           <Link className="pill" to="/servicos.html">Conhecer caminhos</Link>
         </div>
         <div className="connected-photo-frame">
-          <img src={asset('photo-easel.png')} alt="Mulher em processo criativo" />
+          <img src={asset('photo-easel.png')} alt="Mulher em processo criativo" loading="lazy" decoding="async" />
         </div>
       </section>
 
       <section id="luna" className={`intro sage home-luna ${isLunaVisible ? 'is-visible' : ''} ${isStoryCardOpen ? 'is-story-open' : ''}`}>
-        <img src={asset('photo-luna-outdoor.png')} alt="Luna em ambiente natural" />
+        <img src={asset('photo-luna-outdoor.png')} alt="Luna em ambiente natural" loading="lazy" decoding="async" />
         <div ref={lunaCopyRef} className="luna-copy">
           <span className="luna-flower" style={{ backgroundImage: `url(${flowerFrameSrc})` }} aria-hidden="true" />
           <p className="eyebrow">Olá querida, eu sou a Luna</p>
@@ -193,7 +227,7 @@ export default function Home() {
               <button type="button" className="luna-story-close" onClick={toggleStoryCard} aria-label="Fechar história">
                 ×
               </button>
-              <img className="luna-story-photo" src={asset('luna-historia-clean.png')} alt="Luna sorrindo em meio à natureza" />
+              <img className="luna-story-photo" src={asset('luna-historia-clean.png')} alt="Luna sorrindo em meio à natureza" loading="lazy" decoding="async" />
               <div className="luna-story-text">
                 <h3>Minha história</h3>
                 <p>
@@ -215,7 +249,7 @@ export default function Home() {
           ['testimonial-art.png', 'Aniversários e comemorações', 'Experiências com yoga, pintura, brunch e práticas criadas para celebrar com presença.', '/b2b.html#agendamento', 'Solicitar proposta'],
         ].map(([image, title, text, href, cta]) => (
           <article key={title}>
-            <img src={asset(image)} alt={title} />
+            <img src={asset(image)} alt={title} loading="lazy" decoding="async" />
             <h3>{title}</h3>
             <p>{text}</p>
             <Link className="pill small" to={href}>{cta}</Link>
@@ -224,7 +258,7 @@ export default function Home() {
       </section>
 
       <section className="meditation-block">
-        <img src={asset('photo-meditation.png')} alt="Meditação em grupo" />
+        <img src={asset('photo-meditation.png')} alt="Meditação em grupo" loading="lazy" decoding="async" />
         <div>
           <p className="eyebrow">Meditação</p>
           <h2>Conexão interna para voltar ao corpo.</h2>
@@ -243,7 +277,7 @@ export default function Home() {
               <p>“{currentTestimonial.quote}”</p>
               <cite>{currentTestimonial.author}</cite>
             </div>
-            <img className="testimonial-photo" src={asset(currentTestimonial.image)} alt={currentTestimonial.alt} />
+            <img className="testimonial-photo" src={asset(currentTestimonial.image)} alt={currentTestimonial.alt} loading="lazy" decoding="async" />
           </blockquote>
           <button type="button" className="testimonial-arrow" onClick={() => moveTestimonial(1)} aria-label="Próximo depoimento">{'>'}</button>
         </div>

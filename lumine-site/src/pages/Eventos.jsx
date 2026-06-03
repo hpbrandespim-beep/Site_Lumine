@@ -50,7 +50,7 @@ export default function Eventos() {
                   className="event-choice-card"
                   onClick={() => setActiveCategory(category.id)}
                 >
-                  <img src={asset(category.image)} alt="" />
+                  <img src={asset(category.image)} alt="" loading="lazy" decoding="async" />
                   <span>{category.eyebrow}</span>
                   <strong>{category.title}</strong>
                   <p>{category.summary}</p>
@@ -79,7 +79,7 @@ export default function Eventos() {
 
                 return (
                   <article key={item.id} className="event-option-card">
-                    <img src={image} alt="" />
+                    <img src={image} alt="" loading="lazy" decoding="async" />
                     <div className="event-option-copy">
                       <span>{item.location || selectedCategory.label}</span>
                       <h3>{item.title}</h3>

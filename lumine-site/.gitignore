@@ -7,3 +7,12 @@ dist/
 
 preview-*.png
 qa-*.png
+
+# Experimental assets kept out of published commits unless they are wired into the app.
+public/assets/agendamento-fundo.png
+public/assets/flower-keys/
+public/assets/flower-outline.svg
+public/assets/flower-seq-smooth/
+public/assets/flower-seq/
+public/assets/luna-historia.png
+public/assets/yellow-flower-soft.png
