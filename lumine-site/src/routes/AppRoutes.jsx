@@ -7,6 +7,7 @@ import Eventos from '../pages/Eventos.jsx';
 import Home from '../pages/Home.jsx';
 import Meditacao from '../pages/Meditacao.jsx';
 import Mentoria from '../pages/Mentoria.jsx';
+import NotFound from '../pages/NotFound.jsx';
 import Servicos from '../pages/Servicos.jsx';
 
 export default function AppRoutes() {
@@ -31,6 +32,7 @@ export default function AppRoutes() {
         <Route path="/conteudo.html" element={<Conteudo />} />
         <Route path="/b2b" element={<B2B />} />
         <Route path="/b2b.html" element={<B2B />} />
+        <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
   );

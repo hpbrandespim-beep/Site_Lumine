@@ -4,6 +4,11 @@ import { BrowserRouter } from 'react-router-dom';
 import AppRoutes from './routes/AppRoutes.jsx';
 import './styles/global.css';
 
+const redirectPath = new URLSearchParams(window.location.search).get('redirect');
+if (redirectPath?.startsWith('/')) {
+  window.history.replaceState(null, '', redirectPath);
+}
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>

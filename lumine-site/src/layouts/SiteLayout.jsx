@@ -3,11 +3,18 @@ import { NavLink, Outlet, useLocation } from 'react-router-dom';
 import { WhatsAppIcon } from '../components/BrandIcons.jsx';
 import SocialLinks from '../components/SocialLinks.jsx';
 import { navigation, whatsappLinks } from '../data/site.js';
+import { trackPageView } from '../utils/analytics.js';
 
 const defaultMeta = {
   title: 'Lumine | Autoconhecimento e presença',
   description: 'Mentorias, meditações, vivências e experiências para voltar para si com mais clareza, presença e verdade.',
   robots: 'index, follow',
+};
+
+const notFoundMeta = {
+  title: 'Página não encontrada | Lumine',
+  description: 'Essa página da Lumine não foi encontrada.',
+  robots: 'noindex, follow',
 };
 
 const routeMeta = {
@@ -108,7 +115,7 @@ export default function SiteLayout() {
     : { href: whatsappLinks.general, label: 'Falar pelo WhatsApp' };
 
   useEffect(() => {
-    const meta = routeMeta[pathname] || defaultMeta;
+    const meta = routeMeta[pathname] || notFoundMeta;
 
     document.title = meta.title;
     setMetaContent('meta[name="description"]', meta.description);
@@ -117,7 +124,8 @@ export default function SiteLayout() {
     setMetaContent('meta[property="og:description"]', meta.description);
     setMetaContent('meta[name="twitter:title"]', meta.title);
     setMetaContent('meta[name="twitter:description"]', meta.description);
-  }, [pathname]);
+    trackPageView(`${pathname}${hash}`, meta.title);
+  }, [hash, pathname]);
 
   useEffect(() => {
     if (!hash) return;
