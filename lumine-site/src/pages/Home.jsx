@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { asset } from '../data/site.js';
+import { useSiteContent } from '../hooks/useSiteContent.js';
 
 const testimonials = [
   {
@@ -24,6 +25,8 @@ const testimonials = [
 ];
 
 export default function Home() {
+  const content = useSiteContent();
+  const homeContent = content.home;
   const [activeTestimonial, setActiveTestimonial] = useState(0);
   const [isLunaVisible, setIsLunaVisible] = useState(false);
   const [flowerFrame, setFlowerFrame] = useState(1);
@@ -173,21 +176,21 @@ export default function Home() {
           </video>
         )}
         <div className="hero-copy">
-          <p className="kicker">Mentorias, experiências e conversas profundas</p>
-          <h1>Há partes suas que ainda esperam ser vistas.</h1>
-          <p>E nossa função é mostrar isso. Um espaço para mulheres que desejam viver com mais clareza, presença e verdade.</p>
+          <p className="kicker">{homeContent.hero.kicker}</p>
+          <h1>{homeContent.hero.title}</h1>
+          <p>{homeContent.hero.body}</p>
           <div className="hero-actions">
-            <Link className="pill" to="/mentoria.html">Quero começar</Link>
+            <Link className="pill" to="/mentoria.html">{homeContent.hero.cta}</Link>
           </div>
         </div>
       </section>
 
       <section className="split dark connected-photo-section">
         <div className="section-copy">
-          <p className="eyebrow">Sua transformação interna</p>
-          <h2>começa aqui</h2>
-          <p>Mentorias, vivências e práticas para voltar para si, liberar crenças limitantes e transformar desejo em direção.</p>
-          <Link className="pill" to="/servicos.html">Conhecer caminhos</Link>
+          <p className="eyebrow">{homeContent.transformation.eyebrow}</p>
+          <h2>{homeContent.transformation.title}</h2>
+          <p>{homeContent.transformation.body}</p>
+          <Link className="pill" to="/servicos.html">{homeContent.transformation.cta}</Link>
         </div>
         <div className="connected-photo-frame">
           <img src={asset('photo-easel.png')} alt="Mulher em processo criativo" loading="lazy" decoding="async" />
@@ -198,9 +201,9 @@ export default function Home() {
         <img src={asset('photo-luna-outdoor.png')} alt="Luna em ambiente natural" loading="lazy" decoding="async" />
         <div ref={lunaCopyRef} className="luna-copy">
           <span className="luna-flower" style={{ backgroundImage: `url(${flowerFrameSrc})` }} aria-hidden="true" />
-          <p className="eyebrow">Olá querida, eu sou a Luna</p>
-          <h2>Um universo criado para transformar internamente.</h2>
-          <p>Aqui você encontra mentorias, meditação, vivências e propostas para empresas que desejam cuidar de pessoas de forma mais humana.</p>
+          <p className="eyebrow">{homeContent.luna.eyebrow}</p>
+          <h2>{homeContent.luna.title}</h2>
+          <p>{homeContent.luna.body}</p>
           <button
             type="button"
             className={`pill small luna-story-trigger ${isStoryCardOpen ? 'is-open' : ''}`}
@@ -208,7 +211,7 @@ export default function Home() {
             aria-expanded={isStoryCardOpen}
             aria-controls="luna-story-card"
           >
-            {isStoryCardOpen ? 'Fechar história' : 'Conhecer história'}
+            {isStoryCardOpen ? homeContent.luna.storyCloseLabel : homeContent.luna.storyOpenLabel}
           </button>
 
           <div
@@ -229,13 +232,10 @@ export default function Home() {
               </button>
               <img className="luna-story-photo" src={asset('luna-historia-clean.png')} alt="Luna sorrindo em meio à natureza" loading="lazy" decoding="async" />
               <div className="luna-story-text">
-                <h3>Minha história</h3>
-                <p>
-                  Esse espaço é seu para contar quem você é, sua trajetória e como nasceu a missão da Lumine.
-                </p>
-                <p>
-                  Você pode editar esse texto com sua voz pessoal para criar uma conexão ainda mais forte com quem chega aqui.
-                </p>
+                <h3>{homeContent.story.title}</h3>
+                {homeContent.story.paragraphs.map((paragraph) => (
+                  <p key={paragraph}>{paragraph}</p>
+                ))}
               </div>
             </article>
           </div>
@@ -260,10 +260,10 @@ export default function Home() {
       <section className="meditation-block">
         <img src={asset('photo-meditation.png')} alt="Meditação em grupo" loading="lazy" decoding="async" />
         <div>
-          <p className="eyebrow">Meditação</p>
-          <h2>Conexão interna para voltar ao corpo.</h2>
-          <p>Uma prática guiada para aquietar a mente, usar a respiração como ponto de apoio e cultivar mais calma no cotidiano.</p>
-          <Link className="pill" to="/meditacao.html">Conhecer meditação</Link>
+          <p className="eyebrow">{homeContent.meditation.eyebrow}</p>
+          <h2>{homeContent.meditation.title}</h2>
+          <p>{homeContent.meditation.body}</p>
+          <Link className="pill" to="/meditacao.html">{homeContent.meditation.cta}</Link>
         </div>
       </section>
 
@@ -296,11 +296,11 @@ export default function Home() {
       </section>
 
       <section className="faq blue">
-        <h2>Perguntas frequentes</h2>
+        <h2>{homeContent.faq.title}</h2>
         <div className="faq-grid">
-          <article><h3>Como escolho a mentoria?</h3><p>A conversa inicial ajuda a entender se faz mais sentido uma jornada mensal ou de dois meses.</p></article>
-          <article><h3>Os encontros são online?</h3><p>As mentorias são individuais e online. As vivências e eventos acontecem presencialmente por cidade.</p></article>
-          <article><h3>Empresas podem contratar?</h3><p>Sim. A Lumine cria propostas para equipes, eventos internos e experiências de cuidado coletivo.</p></article>
+          {homeContent.faq.items.map((item) => (
+            <article key={item.title}><h3>{item.title}</h3><p>{item.body}</p></article>
+          ))}
         </div>
       </section>
     </main>

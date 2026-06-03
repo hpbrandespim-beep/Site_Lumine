@@ -1,5 +1,6 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import SiteLayout from '../layouts/SiteLayout.jsx';
+import AdminConteudo from '../pages/AdminConteudo.jsx';
 import AdminEventos from '../pages/AdminEventos.jsx';
 import B2B from '../pages/B2B.jsx';
 import Conteudo from '../pages/Conteudo.jsx';
@@ -24,6 +25,8 @@ export default function AppRoutes() {
         <Route path="/meditacao.html" element={<Meditacao />} />
         <Route path="/eventos" element={<Eventos />} />
         <Route path="/eventos.html" element={<Eventos />} />
+        <Route path="/admin-conteudo" element={<AdminConteudo />} />
+        <Route path="/admin-conteudo.html" element={<AdminConteudo />} />
         <Route path="/admin-eventos" element={<AdminEventos />} />
         <Route path="/admin-eventos.html" element={<AdminEventos />} />
         <Route path="/eventos-paranavai.html" element={<Navigate to="/eventos.html" replace />} />
