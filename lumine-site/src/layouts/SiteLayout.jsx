@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
 import { WhatsAppIcon } from '../components/BrandIcons.jsx';
 import SocialLinks from '../components/SocialLinks.jsx';
@@ -109,6 +109,7 @@ function setMetaContent(selector, content) {
 
 export default function SiteLayout() {
   const { hash, pathname } = useLocation();
+  const [isNavOpen, setIsNavOpen] = useState(false);
   const isCorporate = pathname.toLowerCase().includes('b2b');
   const whatsappCta = isCorporate
     ? { href: whatsappLinks.corporate, label: 'Solicitar proposta' }
@@ -134,11 +135,25 @@ export default function SiteLayout() {
     if (target) target.scrollIntoView({ block: 'start' });
   }, [hash, pathname]);
 
+  useEffect(() => {
+    setIsNavOpen(false);
+  }, [pathname]);
+
   return (
     <>
-      <header className="site-header">
+      <header className={`site-header ${isNavOpen ? 'is-nav-open' : ''}`}>
         <NavLink className="brand" to="/index.html">Lumine</NavLink>
-        <nav aria-label="Menu principal">
+        <button
+          type="button"
+          className="nav-toggle"
+          aria-expanded={isNavOpen}
+          aria-controls="site-navigation"
+          onClick={() => setIsNavOpen((current) => !current)}
+        >
+          <span>Menu</span>
+          <i aria-hidden="true" />
+        </button>
+        <nav id="site-navigation" aria-label="Menu principal">
           {navigation.map((item) => (
             <NavLink
               key={item.to}
