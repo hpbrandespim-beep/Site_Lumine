@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { loadSiteContent } from '../data/content.js';
+import { loadSiteContent, normalizeSiteContent } from '../data/content.js';
 
 export function useSiteContent() {
   const [content, setContent] = useState(() => loadSiteContent());
@@ -13,12 +13,21 @@ export function useSiteContent() {
       if (event.key === 'lumine-site-content-v1') setContent(loadSiteContent());
     }
 
+    function handlePreviewMessage(event) {
+      if (event.origin !== window.location.origin) return;
+      if (event.data?.type !== 'lumine-preview-content') return;
+
+      setContent(normalizeSiteContent(event.data.content));
+    }
+
     window.addEventListener('lumine-content-updated', updateContent);
     window.addEventListener('storage', handleStorage);
+    window.addEventListener('message', handlePreviewMessage);
 
     return () => {
       window.removeEventListener('lumine-content-updated', updateContent);
       window.removeEventListener('storage', handleStorage);
+      window.removeEventListener('message', handlePreviewMessage);
     };
   }, []);
 

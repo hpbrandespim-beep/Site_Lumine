@@ -1,56 +1,51 @@
 import PageHead from '../components/PageHead.jsx';
 import { asset } from '../data/site.js';
+import { useSiteContent } from '../hooks/useSiteContent.js';
 
-const blogPosts = [
+const blogPostMeta = [
   {
-    title: 'Desacelerar para se Escutar',
-    excerpt: 'Uma prática simples para sair do automático e voltar para o corpo.',
     image: 'testimonial-quiet.png',
     href: 'https://instagram.com/lumineclub_',
   },
   {
-    title: 'O que a Presença Revela',
-    excerpt: 'Quando você silencia o ruído, começa a perceber o que realmente importa.',
     image: 'photo-luna-outdoor.png',
     href: 'https://instagram.com/lumineclub_',
   },
   {
-    title: 'Cuidar de Si sem Culpa',
-    excerpt: 'Reflexões sobre limites, descanso e energia emocional no dia a dia.',
     image: 'photo-meditation.png',
     href: 'https://tiktok.com/@ilumine.luna',
   },
   {
-    title: 'Corpo, Respiração e Clareza',
-    excerpt: 'Como pequenas pausas ao longo do dia transformam sua percepção.',
     image: 'photo-vivencia.png',
     href: 'https://www.youtube.com/@lunabmachado',
   },
   {
-    title: 'Rituais de Recomeço',
-    excerpt: 'Sugestões de micro-rituais para reconexão em semanas intensas.',
     image: 'photo-retiro.png',
     href: 'https://instagram.com/lumineclub_',
   },
   {
-    title: 'A Arte de Voltar para Si',
-    excerpt: 'Um convite para criar espaços de verdade, presença e escuta interna.',
     image: 'testimonial-art.png',
     href: 'https://tiktok.com/@ilumine.luna',
   },
 ];
 
 export default function Conteudo() {
+  const { blog } = useSiteContent();
+  const blogPosts = blog.posts.map((post, index) => ({
+    ...blogPostMeta[index % blogPostMeta.length],
+    ...post,
+  }));
+
   return (
     <main className="content-page blog-page refined-page">
-      <PageHead className="black clean-head content-refined-head" title="Blog">
-        Textos, reflexões e bastidores sobre autoconhecimento, presença e transformação.
+      <PageHead className="black clean-head content-refined-head" title={blog.hero.title}>
+        {blog.hero.body}
       </PageHead>
 
       <section className="blog-shell">
         <header className="blog-shell-head">
-          <p>Posts recentes</p>
-          <h2>Reflexões para ler com calma</h2>
+          <p>{blog.sectionLabel}</p>
+          <h2>{blog.sectionTitle}</h2>
         </header>
 
         <div className="blog-grid">
@@ -60,7 +55,7 @@ export default function Conteudo() {
               <div className="blog-card-copy">
                 <h3>{post.title}</h3>
                 <p>{post.excerpt}</p>
-                <span>Ler post →</span>
+                <span>{blog.cta}</span>
               </div>
             </a>
           ))}

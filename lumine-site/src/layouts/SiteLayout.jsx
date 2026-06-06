@@ -3,113 +3,30 @@ import { NavLink, Outlet, useLocation } from 'react-router-dom';
 import { WhatsAppIcon } from '../components/BrandIcons.jsx';
 import SocialLinks from '../components/SocialLinks.jsx';
 import { navigation, whatsappLinks } from '../data/site.js';
+import { useSiteContent } from '../hooks/useSiteContent.js';
 import { trackPageView } from '../utils/analytics.js';
 
-const defaultMeta = {
-  title: 'Lumine | Autoconhecimento e presença',
-  description: 'Mentorias, meditações, vivências e experiências para voltar para si com mais clareza, presença e verdade.',
-  robots: 'index, follow',
-};
-
-const notFoundMeta = {
-  title: 'Página não encontrada | Lumine',
-  description: 'Essa página da Lumine não foi encontrada.',
-  robots: 'noindex, follow',
-};
-
 const routeMeta = {
-  '/index.html': defaultMeta,
-  '/': defaultMeta,
-  '/mentoria.html': {
-    title: 'Mentoria | Lumine',
-    description: 'Jornadas individuais de mentoria para mulheres que buscam clareza, presença e transformação interna.',
-    robots: 'index, follow',
-  },
-  '/mentoria': {
-    title: 'Mentoria | Lumine',
-    description: 'Jornadas individuais de mentoria para mulheres que buscam clareza, presença e transformação interna.',
-    robots: 'index, follow',
-  },
-  '/servicos.html': {
-    title: 'Serviços | Lumine',
-    description: 'Conheça os caminhos da Lumine: mentorias, vivências, meditação e propostas para empresas.',
-    robots: 'index, follow',
-  },
-  '/servicos': {
-    title: 'Serviços | Lumine',
-    description: 'Conheça os caminhos da Lumine: mentorias, vivências, meditação e propostas para empresas.',
-    robots: 'index, follow',
-  },
-  '/meditacao.html': {
-    title: 'Meditação | Lumine',
-    description: 'Práticas de meditação guiada para aquietar a mente, voltar ao corpo e cultivar presença no cotidiano.',
-    robots: 'index, follow',
-  },
-  '/meditacao': {
-    title: 'Meditação | Lumine',
-    description: 'Práticas de meditação guiada para aquietar a mente, voltar ao corpo e cultivar presença no cotidiano.',
-    robots: 'index, follow',
-  },
-  '/eventos.html': {
-    title: 'Eventos | Lumine',
-    description: 'Vivências, retiros e encontros presenciais da Lumine em diferentes cidades.',
-    robots: 'index, follow',
-  },
-  '/eventos': {
-    title: 'Eventos | Lumine',
-    description: 'Vivências, retiros e encontros presenciais da Lumine em diferentes cidades.',
-    robots: 'index, follow',
-  },
-  '/conteudo.html': {
-    title: 'Blog | Lumine',
-    description: 'Conteúdos da Lumine sobre autoconhecimento, presença, corpo e transformação interna.',
-    robots: 'index, follow',
-  },
-  '/conteudo': {
-    title: 'Blog | Lumine',
-    description: 'Conteúdos da Lumine sobre autoconhecimento, presença, corpo e transformação interna.',
-    robots: 'index, follow',
-  },
-  '/b2b.html': {
-    title: 'Empresas | Lumine',
-    description: 'Experiências e propostas da Lumine para empresas que desejam cuidar de pessoas de forma mais humana.',
-    robots: 'index, follow',
-  },
-  '/b2b': {
-    title: 'Empresas | Lumine',
-    description: 'Experiências e propostas da Lumine para empresas que desejam cuidar de pessoas de forma mais humana.',
-    robots: 'index, follow',
-  },
-  '/admin.html': {
-    title: 'Área Lumine | Painel',
-    description: 'Painel interno da Lumine.',
-    robots: 'noindex, nofollow',
-  },
-  '/admin': {
-    title: 'Área Lumine | Painel',
-    description: 'Painel interno da Lumine.',
-    robots: 'noindex, nofollow',
-  },
-  '/admin-eventos.html': {
-    title: 'Área Lumine | Painel',
-    description: 'Painel interno da Lumine.',
-    robots: 'noindex, nofollow',
-  },
-  '/admin-eventos': {
-    title: 'Área Lumine | Painel',
-    description: 'Painel interno da Lumine.',
-    robots: 'noindex, nofollow',
-  },
-  '/admin-conteudo.html': {
-    title: 'Área Lumine | Painel',
-    description: 'Painel interno da Lumine.',
-    robots: 'noindex, nofollow',
-  },
-  '/admin-conteudo': {
-    title: 'Área Lumine | Painel',
-    description: 'Painel interno da Lumine.',
-    robots: 'noindex, nofollow',
-  },
+  '/index.html': { source: 'default', robots: 'index, follow' },
+  '/': { source: 'default', robots: 'index, follow' },
+  '/mentoria.html': { source: 'mentoring', robots: 'index, follow' },
+  '/mentoria': { source: 'mentoring', robots: 'index, follow' },
+  '/servicos.html': { source: 'services', robots: 'index, follow' },
+  '/servicos': { source: 'services', robots: 'index, follow' },
+  '/meditacao.html': { source: 'meditation', robots: 'index, follow' },
+  '/meditacao': { source: 'meditation', robots: 'index, follow' },
+  '/eventos.html': { source: 'events', robots: 'index, follow' },
+  '/eventos': { source: 'events', robots: 'index, follow' },
+  '/conteudo.html': { source: 'blog', robots: 'index, follow' },
+  '/conteudo': { source: 'blog', robots: 'index, follow' },
+  '/b2b.html': { source: 'corporate', robots: 'index, follow' },
+  '/b2b': { source: 'corporate', robots: 'index, follow' },
+  '/admin.html': { source: 'admin', robots: 'noindex, nofollow' },
+  '/admin': { source: 'admin', robots: 'noindex, nofollow' },
+  '/admin-eventos.html': { source: 'admin', robots: 'noindex, nofollow' },
+  '/admin-eventos': { source: 'admin', robots: 'noindex, nofollow' },
+  '/admin-conteudo.html': { source: 'admin', robots: 'noindex, nofollow' },
+  '/admin-conteudo': { source: 'admin', robots: 'noindex, nofollow' },
 };
 
 function setMetaContent(selector, content) {
@@ -127,16 +44,41 @@ function setMetaContent(selector, content) {
   if (meta) meta.setAttribute('content', content);
 }
 
+function getRouteMeta(pathname, seo) {
+  const config = routeMeta[pathname];
+
+  if (!config) {
+    return {
+      ...seo.notFound,
+      robots: 'noindex, follow',
+    };
+  }
+
+  const source = config.source === 'default'
+    ? seo.default
+    : seo.routes[config.source] || seo.default;
+
+  return {
+    ...source,
+    robots: config.robots,
+  };
+}
+
 export default function SiteLayout() {
   const { hash, pathname } = useLocation();
+  const { layout, seo } = useSiteContent();
   const [isNavOpen, setIsNavOpen] = useState(false);
   const isCorporate = pathname.toLowerCase().includes('b2b');
   const whatsappCta = isCorporate
-    ? { href: whatsappLinks.corporate, label: 'Solicitar proposta' }
-    : { href: whatsappLinks.general, label: 'Falar pelo WhatsApp' };
+    ? { href: whatsappLinks.corporate, label: layout.footer.corporateWhatsappLabel }
+    : { href: whatsappLinks.general, label: layout.footer.generalWhatsappLabel };
+  const navItems = navigation.map((item) => ({
+    ...item,
+    label: layout.nav[item.key] || item.label,
+  }));
 
   useEffect(() => {
-    const meta = routeMeta[pathname] || notFoundMeta;
+    const meta = getRouteMeta(pathname, seo);
 
     document.title = meta.title;
     setMetaContent('meta[name="description"]', meta.description);
@@ -146,7 +88,7 @@ export default function SiteLayout() {
     setMetaContent('meta[name="twitter:title"]', meta.title);
     setMetaContent('meta[name="twitter:description"]', meta.description);
     trackPageView(`${pathname}${hash}`, meta.title);
-  }, [hash, pathname]);
+  }, [hash, pathname, seo]);
 
   useEffect(() => {
     if (!hash) return;
@@ -162,7 +104,7 @@ export default function SiteLayout() {
   return (
     <>
       <header className={`site-header ${isNavOpen ? 'is-nav-open' : ''}`}>
-        <NavLink className="brand" to="/index.html">Lumine</NavLink>
+        <NavLink className="brand" to="/index.html">{layout.brand}</NavLink>
         <button
           type="button"
           className="nav-toggle"
@@ -170,11 +112,11 @@ export default function SiteLayout() {
           aria-controls="site-navigation"
           onClick={() => setIsNavOpen((current) => !current)}
         >
-          <span>Menu</span>
+          <span>{layout.menuLabel}</span>
           <i aria-hidden="true" />
         </button>
-        <nav id="site-navigation" aria-label="Menu principal">
-          {navigation.map((item) => (
+        <nav id="site-navigation" aria-label={layout.navLabel}>
+          {navItems.map((item) => (
             <NavLink
               key={item.to}
               className={({ isActive }) => (isActive ? 'is-active' : undefined)}
@@ -190,17 +132,16 @@ export default function SiteLayout() {
 
       <footer id="footer" className="footer">
         <div className="footer-copy">
-          <p className="footer-kicker">Contato</p>
-          <h2>Fale com a gente</h2>
-          <p className="footer-description">Para dúvidas, agenda e propostas, escolha o canal que fizer mais sentido.</p>
+          <p className="footer-kicker">{layout.footer.kicker}</p>
+          <h2>{layout.footer.title}</h2>
+          <p className="footer-description">{layout.footer.description}</p>
           <p className="footer-handles">
-            <span>@lunabmachado</span>
-            <span>@lumineclub_</span>
+            {layout.footer.handles.map((handle) => <span key={handle}>{handle}</span>)}
           </p>
-          <NavLink className="footer-admin-link" to="/admin.html">Área Lumine</NavLink>
+          <NavLink className="footer-admin-link" to="/admin.html">{layout.footer.adminLabel}</NavLink>
         </div>
-        <div className="footer-actions" aria-label="Canais de contato">
-          <SocialLinks className="socials footer-socials" />
+        <div className="footer-actions" aria-label={layout.footer.channelsLabel}>
+          <SocialLinks className="socials footer-socials" label={layout.footer.socialsLabel} labels={layout.socials} />
           <a className="outline whatsapp-link footer-whatsapp" href={whatsappCta.href}>
             <WhatsAppIcon />
             <span>{whatsappCta.label}</span>

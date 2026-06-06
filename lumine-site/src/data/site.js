@@ -11,16 +11,16 @@ export const whatsappLinks = {
 export const waitlistFormLink = 'https://docs.google.com/forms/d/e/1FAIpQLSdY1kbMgB5xgqM22mYmJ7-oHEiBYUvpJpXsKWkPRKeQZa-CzA/viewform';
 
 export const navigation = [
-  { label: 'Mentoria', to: '/mentoria.html' },
-  { label: 'Serviços', to: '/servicos.html' },
-  { label: 'Meditação', to: '/meditacao.html' },
-  { label: 'Eventos', to: '/eventos.html' },
-  { label: 'Blog', to: '/conteudo.html' },
-  { label: 'Empresas', to: '/b2b.html' },
+  { key: 'mentoring', label: 'Mentoria', to: '/mentoria.html' },
+  { key: 'services', label: 'Serviços', to: '/servicos.html' },
+  { key: 'meditation', label: 'Meditação', to: '/meditacao.html' },
+  { key: 'events', label: 'Eventos', to: '/eventos.html' },
+  { key: 'blog', label: 'Blog', to: '/conteudo.html' },
+  { key: 'corporate', label: 'Empresas', to: '/b2b.html' },
 ];
 
 export const socials = [
-  { label: 'Instagram', href: 'https://instagram.com/lumineclub_', className: 'icon-instagram', icon: 'instagram' },
-  { label: 'TikTok', href: 'https://tiktok.com/@ilumine.luna', className: 'icon-tiktok', icon: 'tiktok' },
-  { label: 'E-mail', href: '/b2b.html#agendamento', className: 'icon-email', icon: 'email' },
+  { key: 'instagram', label: 'Instagram', href: 'https://instagram.com/lumineclub_', className: 'icon-instagram', icon: 'instagram' },
+  { key: 'tiktok', label: 'TikTok', href: 'https://tiktok.com/@ilumine.luna', className: 'icon-tiktok', icon: 'tiktok' },
+  { key: 'email', label: 'E-mail', href: '/b2b.html#agendamento', className: 'icon-email', icon: 'email' },
 ];

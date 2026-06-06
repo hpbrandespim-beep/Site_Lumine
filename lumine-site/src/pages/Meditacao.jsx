@@ -1,30 +1,28 @@
 import { asset, whatsappLinks } from '../data/site.js';
+import { useSiteContent } from '../hooks/useSiteContent.js';
 
 export default function Meditacao() {
+  const { meditationPage } = useSiteContent();
+
   return (
     <main className="meditation-page">
-      <section className="meditation-paper-head" aria-label="Meditação de conexão interna">
-        <span className="sr-only">Meditação de conexão interna. Aprenda a usar sua respiração para se acalmar em situações que te vulnerariam.</span>
+      <section className="meditation-paper-head" aria-label={meditationPage.ariaLabel}>
+        <span className="sr-only">{meditationPage.intro}</span>
       </section>
 
       <section className="meditation-offer">
-        <img src={asset('photo-mentoria-luz.png')} alt="Mulher de vestido branco segurando um livro aberto" />
+        <img src={asset('photo-mentoria-luz.png')} alt={meditationPage.imageAlt} />
         <div className="meditation-offer-card">
-          <h1>Meditação</h1>
-          <p>4 sessões online individuais de 1 hora</p>
+          <h1>{meditationPage.title}</h1>
+          <p>{meditationPage.sessions}</p>
           <ul>
-            <li>Meditação de conexão interna em todas as sessões</li>
-            <li>Identificação e liberação de crenças limitantes</li>
-            <li>Clareza em relação aos seus desejos e objetivos</li>
-            <li>Reestruturação de pensamentos para liberação de crenças</li>
-            <li>Guia prático para a rotina: fazer para ser</li>
-            <li>Exercícios personalizados de meditação em todas as mentorias</li>
+            {meditationPage.items.map((item) => <li key={item}>{item}</li>)}
           </ul>
           <div className="meditation-price">
-            <strong>R$ 890 à vista</strong>
-            <span>ou 2x de R$ 445</span>
+            <strong>{meditationPage.pricePrimary}</strong>
+            <span>{meditationPage.priceSecondary}</span>
           </div>
-          <a className="pill meditation-cta" href={whatsappLinks.meditation}>Comprar meditação</a>
+          <a className="pill meditation-cta" href={whatsappLinks.meditation}>{meditationPage.cta}</a>
         </div>
       </section>
     </main>

@@ -3,25 +3,22 @@ import { Link } from 'react-router-dom';
 import { asset } from '../data/site.js';
 import { useSiteContent } from '../hooks/useSiteContent.js';
 
-const testimonials = [
+const testimonialMedia = [
   {
-    quote: 'Me senti de volta comigo mesma, principalmente na questão da jardinagem que pude fazer, que tanto amo e a mini eu também sempre amou. Um lugar que, além de me acolher, acolheu minhas histórias.',
-    author: 'Participante • Vivência Lumine',
     image: 'testimonial-quiet.png',
-    alt: 'Participante sentada em momento de pausa durante vivência',
   },
   {
-    quote: 'Senti que tudo foi escolhido nos pequenos detalhes, e que isso contribuiu para a experiência como um todo. Muitas práticas legais que não fazemos no dia a dia, mas que quando paramos para pensar faz muita diferença.',
-    author: 'Participante • Encontro Lumine',
     image: 'testimonial-group.png',
-    alt: 'Participantes sorrindo sentadas em roda',
   },
   {
-    quote: 'Depois que conheci a Lumine passei a adorar fazer atividades em grupo, me ajuda na criatividade e faço coisas que não experimentaria fazer sozinha pela primeira vez. Hoje gosto de pintar, criar mais e etc.',
-    author: 'Participante • Comunidade Lumine',
     image: 'testimonial-art.png',
-    alt: 'Participantes pintando juntas durante atividade criativa',
   },
+];
+
+const offerMedia = [
+  ['photo-mentoria-luz.png', '/mentoria.html'],
+  ['photo-vivencia.png', '/eventos.html'],
+  ['testimonial-art.png', '/b2b.html#agendamento'],
 ];
 
 export default function Home() {
@@ -38,7 +35,11 @@ export default function Home() {
   const lunaVisibleRef = useRef(false);
   const flowerRafRef = useRef(0);
 
-  const currentTestimonial = testimonials[activeTestimonial];
+  const testimonials = homeContent.testimonials.items.map((item, index) => ({
+    ...testimonialMedia[index % testimonialMedia.length],
+    ...item,
+  }));
+  const currentTestimonial = testimonials[activeTestimonial] || testimonials[0];
   const flowerFrameSrc = asset(`flower-seq-40/frame-${String(prefersReducedMotion ? 40 : flowerFrame).padStart(2, '0')}.png`);
 
   useEffect(() => {
@@ -57,7 +58,7 @@ export default function Home() {
     }, 5000);
 
     return () => window.clearInterval(timer);
-  }, []);
+  }, [testimonials.length]);
 
   useEffect(() => {
     const maxFrame = 40;
@@ -193,12 +194,12 @@ export default function Home() {
           <Link className="pill" to="/servicos.html">{homeContent.transformation.cta}</Link>
         </div>
         <div className="connected-photo-frame">
-          <img src={asset('photo-easel.png')} alt="Mulher em processo criativo" loading="lazy" decoding="async" />
+          <img src={asset('photo-easel.png')} alt={homeContent.transformation.imageAlt} loading="lazy" decoding="async" />
         </div>
       </section>
 
       <section id="luna" className={`intro sage home-luna ${isLunaVisible ? 'is-visible' : ''} ${isStoryCardOpen ? 'is-story-open' : ''}`}>
-        <img src={asset('photo-luna-outdoor.png')} alt="Luna em ambiente natural" loading="lazy" decoding="async" />
+        <img src={asset('photo-luna-outdoor.png')} alt={homeContent.luna.imageAlt} loading="lazy" decoding="async" />
         <div ref={lunaCopyRef} className="luna-copy">
           <span className="luna-flower" style={{ backgroundImage: `url(${flowerFrameSrc})` }} aria-hidden="true" />
           <p className="eyebrow">{homeContent.luna.eyebrow}</p>
@@ -224,13 +225,13 @@ export default function Home() {
               className={`luna-story-card ${isStoryCardOpen ? 'is-open' : ''}`}
               role="dialog"
               aria-modal="true"
-              aria-label="Minha história"
+              aria-label={homeContent.story.dialogLabel}
               onClick={(event) => event.stopPropagation()}
             >
-              <button type="button" className="luna-story-close" onClick={toggleStoryCard} aria-label="Fechar história">
+              <button type="button" className="luna-story-close" onClick={toggleStoryCard} aria-label={homeContent.story.closeButtonLabel}>
                 ×
               </button>
-              <img className="luna-story-photo" src={asset('luna-historia-clean.png')} alt="Luna sorrindo em meio à natureza" loading="lazy" decoding="async" />
+              <img className="luna-story-photo" src={asset('luna-historia-clean.png')} alt={homeContent.story.imageAlt} loading="lazy" decoding="async" />
               <div className="luna-story-text">
                 <h3>{homeContent.story.title}</h3>
                 {homeContent.story.paragraphs.map((paragraph) => (
@@ -243,22 +244,22 @@ export default function Home() {
       </section>
 
       <section className="offer-grid blue">
-        {[
-          ['photo-mentoria-luz.png', 'Mentorias individuais', 'Jornadas de transformação em pacotes de 30 ou 61 dias.', '/mentoria.html', 'Conhecer mentoria'],
-          ['photo-vivencia.png', 'Vivências', 'Eventos pontuais em Paranavaí e São Paulo.', '/eventos.html', 'Ver eventos'],
-          ['testimonial-art.png', 'Aniversários e comemorações', 'Experiências com yoga, pintura, brunch e práticas criadas para celebrar com presença.', '/b2b.html#agendamento', 'Solicitar proposta'],
-        ].map(([image, title, text, href, cta]) => (
-          <article key={title}>
-            <img src={asset(image)} alt={title} loading="lazy" decoding="async" />
-            <h3>{title}</h3>
-            <p>{text}</p>
-            <Link className="pill small" to={href}>{cta}</Link>
-          </article>
-        ))}
+        {homeContent.offers.items.map((item, index) => {
+          const [image, href] = offerMedia[index % offerMedia.length];
+
+          return (
+            <article key={item.title}>
+              <img src={asset(image)} alt={item.title} loading="lazy" decoding="async" />
+              <h3>{item.title}</h3>
+              <p>{item.text}</p>
+              <Link className="pill small" to={href}>{item.cta}</Link>
+            </article>
+          );
+        })}
       </section>
 
       <section className="meditation-block">
-        <img src={asset('photo-meditation.png')} alt="Meditação em grupo" loading="lazy" decoding="async" />
+        <img src={asset('photo-meditation.png')} alt={homeContent.meditation.imageAlt} loading="lazy" decoding="async" />
         <div>
           <p className="eyebrow">{homeContent.meditation.eyebrow}</p>
           <h2>{homeContent.meditation.title}</h2>
@@ -268,10 +269,10 @@ export default function Home() {
       </section>
 
       <section className="testimonials sage">
-        <p className="kicker">Depoimentos</p>
-        <h2>Mulheres que voltaram para si</h2>
+        <p className="kicker">{homeContent.testimonials.kicker}</p>
+        <h2>{homeContent.testimonials.title}</h2>
         <div className="testimonial-carousel">
-          <button type="button" className="testimonial-arrow" onClick={() => moveTestimonial(-1)} aria-label="Depoimento anterior">{'<'}</button>
+          <button type="button" className="testimonial-arrow" onClick={() => moveTestimonial(-1)} aria-label={homeContent.testimonials.previousLabel}>{'<'}</button>
           <blockquote className="testimonial-card" key={activeTestimonial} aria-live="polite">
             <div className="testimonial-copy">
               <p>“{currentTestimonial.quote}”</p>
@@ -279,16 +280,16 @@ export default function Home() {
             </div>
             <img className="testimonial-photo" src={asset(currentTestimonial.image)} alt={currentTestimonial.alt} loading="lazy" decoding="async" />
           </blockquote>
-          <button type="button" className="testimonial-arrow" onClick={() => moveTestimonial(1)} aria-label="Próximo depoimento">{'>'}</button>
+          <button type="button" className="testimonial-arrow" onClick={() => moveTestimonial(1)} aria-label={homeContent.testimonials.nextLabel}>{'>'}</button>
         </div>
-        <div className="testimonial-dots" aria-label="Selecionar depoimento">
+        <div className="testimonial-dots" aria-label={homeContent.testimonials.selectLabel}>
           {testimonials.map((item, index) => (
             <button
               type="button"
               key={item.author}
               className={index === activeTestimonial ? 'is-active' : ''}
               onClick={() => setActiveTestimonial(index)}
-              aria-label={`Selecionar depoimento ${index + 1}`}
+              aria-label={`${homeContent.testimonials.selectLabel} ${index + 1}`}
               aria-current={index === activeTestimonial ? 'true' : undefined}
             />
           ))}
