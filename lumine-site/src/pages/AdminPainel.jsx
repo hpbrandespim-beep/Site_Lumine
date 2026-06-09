@@ -17,6 +17,7 @@ import {
 import { asset, waitlistFormLink } from '../data/site.js';
 
 const ADMIN_AUTH_KEY = 'lumine-admin-auth';
+const ADMIN_SESSION_VERSION = '2026-06-09-secure-admin';
 const LEGACY_AUTH_KEYS = ['lumine-events-admin-auth', 'lumine-content-admin-auth'];
 const ADMIN_PASSWORD = 'LumineAdm!29#Vida@2026';
 
@@ -877,17 +878,14 @@ function canUseStorage() {
 function hasAdminSession() {
   if (!canUseStorage()) return false;
 
-  return (
-    window.localStorage.getItem(ADMIN_AUTH_KEY) === 'true'
-    || LEGACY_AUTH_KEYS.some((key) => window.localStorage.getItem(key) === 'true')
-  );
+  return window.localStorage.getItem(ADMIN_AUTH_KEY) === ADMIN_SESSION_VERSION;
 }
 
 function saveAdminSession() {
   if (!canUseStorage()) return;
 
-  window.localStorage.setItem(ADMIN_AUTH_KEY, 'true');
-  LEGACY_AUTH_KEYS.forEach((key) => window.localStorage.setItem(key, 'true'));
+  window.localStorage.setItem(ADMIN_AUTH_KEY, ADMIN_SESSION_VERSION);
+  LEGACY_AUTH_KEYS.forEach((key) => window.localStorage.removeItem(key));
 }
 
 function clearAdminSession() {
@@ -1010,7 +1008,13 @@ export default function AdminPainel() {
 
       window.setTimeout(() => {
         const target = doc.querySelector(previewTarget.selector);
-        target?.scrollIntoView({ block: 'start' });
+        if (!target || !frame.contentWindow) return;
+
+        const targetTop = target.getBoundingClientRect().top + frame.contentWindow.scrollY;
+        frame.contentWindow.scrollTo({
+          top: Math.max(targetTop - 16, 0),
+          behavior: 'auto',
+        });
       }, 60);
     } catch {
       // Same-origin preview should be readable; if the browser blocks it, the iframe still shows the page.
@@ -1031,6 +1035,16 @@ export default function AdminPainel() {
   useEffect(() => {
     setActivePanel(getInitialPanel(pathname));
   }, [pathname]);
+
+  useEffect(() => {
+    if (activePanel !== 'conteudo') return undefined;
+
+    const scrollFrame = window.requestAnimationFrame(() => {
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+    });
+
+    return () => window.cancelAnimationFrame(scrollFrame);
+  }, [activePanel]);
 
   useEffect(() => {
     syncPreviewFrame();
@@ -1576,42 +1590,41 @@ export default function AdminPainel() {
                               />
                             )}
                           </label>
-                          {shouldShowPreview && (
-                            <aside
-                              className={`admin-event-preview admin-content-preview ${isContentPreviewFullScreen ? 'is-fullscreen' : ''}`}
-                            >
-                              <div className="admin-preview-toolbar">
-                                <div>
-                                  <p className="kicker">Prévia real do site</p>
-                                  <span>{previewTarget.label}</span>
-                                </div>
-                                <button
-                                  type="button"
-                                  className="event-admin-link"
-                                  onClick={() => setIsContentPreviewFullScreen((current) => !current)}
-                                >
-                                  {isContentPreviewFullScreen ? 'Sair da tela cheia' : 'Tela cheia'}
-                                </button>
-                              </div>
-                              <div className="admin-live-preview-head">
-                                <h2>{activeField.groupTitle}</h2>
-                                <p><strong>{activeField.label}</strong> - {getFieldHint(activeContentPath)}</p>
-                              </div>
-                              <div className="admin-real-preview-shell">
-                                <iframe
-                                  ref={previewFrameRef}
-                                  title="Prévia real do site"
-                                  src={previewTarget.path}
-                                  onLoad={syncPreviewFrame}
-                                />
-                              </div>
-                            </aside>
-                          )}
                         </div>
                       );
                     })}
                   </div>
                 </fieldset>
+
+                <aside
+                  className={`admin-event-preview admin-content-preview ${isContentPreviewFullScreen ? 'is-fullscreen' : ''}`}
+                >
+                  <div className="admin-preview-toolbar">
+                    <div>
+                      <p className="kicker">Prévia real do site</p>
+                      <span>{previewTarget.label}</span>
+                    </div>
+                    <button
+                      type="button"
+                      className="event-admin-link"
+                      onClick={() => setIsContentPreviewFullScreen((current) => !current)}
+                    >
+                      {isContentPreviewFullScreen ? 'Sair da tela cheia' : 'Tela cheia'}
+                    </button>
+                  </div>
+                  <div className="admin-live-preview-head">
+                    <h2>{activeField.groupTitle}</h2>
+                    <p><strong>{activeField.label}</strong> - {getFieldHint(activeContentPath)}</p>
+                  </div>
+                  <div className="admin-real-preview-shell">
+                    <iframe
+                      ref={previewFrameRef}
+                      title="Prévia real do site"
+                      src={previewTarget.path}
+                      onLoad={syncPreviewFrame}
+                    />
+                  </div>
+                </aside>
 
                 <div className="admin-content-actions">
                   <button className="pill pink" type="submit">Salvar textos</button>

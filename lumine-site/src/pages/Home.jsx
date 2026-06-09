@@ -297,18 +297,13 @@ export default function Home() {
       </section>
 
       <section className="faq blue">
-        <div className="faq-head">
-          <h2>{homeContent.faq.title}</h2>
-        </div>
+        <h2>{homeContent.faq.title}</h2>
         <div className="faq-grid">
           {homeContent.faq.items.map((item, index) => (
-            <details className="faq-item" key={`faq-${index}`} defaultOpen={index === 0}>
-              <summary>
-                <span className="faq-number">{String(index + 1).padStart(2, '0')}</span>
-                <h3>{item.title}</h3>
-              </summary>
+            <article key={`faq-${index}`}>
+              <h3>{item.title}</h3>
               <p>{item.body}</p>
-            </details>
+            </article>
           ))}
         </div>
       </section>
