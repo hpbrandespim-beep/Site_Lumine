@@ -234,8 +234,8 @@ export default function Home() {
               <img className="luna-story-photo" src={asset('luna-historia-clean.png')} alt={homeContent.story.imageAlt} loading="lazy" decoding="async" />
               <div className="luna-story-text">
                 <h3>{homeContent.story.title}</h3>
-                {homeContent.story.paragraphs.map((paragraph) => (
-                  <p key={paragraph}>{paragraph}</p>
+                {homeContent.story.paragraphs.map((paragraph, index) => (
+                  <p key={`story-${index}`}>{paragraph}</p>
                 ))}
               </div>
             </article>
@@ -248,7 +248,7 @@ export default function Home() {
           const [image, href] = offerMedia[index % offerMedia.length];
 
           return (
-            <article key={item.title}>
+            <article key={`offer-${index}`}>
               <img src={asset(image)} alt={item.title} loading="lazy" decoding="async" />
               <h3>{item.title}</h3>
               <p>{item.text}</p>
@@ -302,7 +302,7 @@ export default function Home() {
         </div>
         <div className="faq-grid">
           {homeContent.faq.items.map((item, index) => (
-            <details className="faq-item" key={item.title} open={index === 0}>
+            <details className="faq-item" key={`faq-${index}`} defaultOpen={index === 0}>
               <summary>
                 <span className="faq-number">{String(index + 1).padStart(2, '0')}</span>
                 <h3>{item.title}</h3>

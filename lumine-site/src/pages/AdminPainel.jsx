@@ -18,7 +18,7 @@ import { asset, waitlistFormLink } from '../data/site.js';
 
 const ADMIN_AUTH_KEY = 'lumine-admin-auth';
 const LEGACY_AUTH_KEYS = ['lumine-events-admin-auth', 'lumine-content-admin-auth'];
-const ADMIN_PASSWORD = 'lumine2026';
+const ADMIN_PASSWORD = 'LumineAdm!29#Vida@2026';
 
 const initialForm = {
   category: 'vivencias',

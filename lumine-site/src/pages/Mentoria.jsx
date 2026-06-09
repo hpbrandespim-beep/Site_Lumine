@@ -24,13 +24,13 @@ export default function Mentoria() {
         {mentoring.hero.body}
       </PageHead>
       <section className="packages blush">
-        {packages.map((item) => (
-          <article key={item.title}>
+        {packages.map((item, packageIndex) => (
+          <article key={`mentoring-package-${packageIndex}`}>
             <img src={asset(item.image)} alt={item.alt} />
             <div className="package-card">
               <h2>{item.title}</h2>
               <p>{item.sessions}</p>
-              <ul>{item.items.map((text) => <li key={text}>{text}</li>)}</ul>
+              <ul>{item.items.map((text, itemIndex) => <li key={`mentoring-item-${packageIndex}-${itemIndex}`}>{text}</li>)}</ul>
               <strong>{item.price}</strong>
               <a className="pill pink" href={whatsappLinks.mentoring}>{mentoring.cta}</a>
             </div>

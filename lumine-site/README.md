@@ -23,5 +23,5 @@ Evite rodar pela copia antiga em `C:\Users\hpbra\Downloads\lumine-site`, porque 
 Senha local dos painéis:
 
 ```text
-lumine2026
+LumineAdm!29#Vida@2026
 ```

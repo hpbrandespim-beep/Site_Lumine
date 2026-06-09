@@ -1,0 +1,12 @@
+{
+  "name": "site-lumine-root",
+  "private": true,
+  "scripts": {
+    "build": "npm --prefix lumine-site run build",
+    "dev": "npm --prefix lumine-site run dev:local",
+    "preview": "npm --prefix lumine-site run preview"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  }
+}

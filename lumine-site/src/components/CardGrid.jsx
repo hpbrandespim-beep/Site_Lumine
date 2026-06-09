@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 export default function CardGrid({ className = '', items }) {
   return (
     <section className={`cards ${className}`}>
-      {items.map((item) => {
+      {items.map((item, index) => {
         const content = (
           <>
             {item.image && <img src={item.image} alt={item.alt} />}
@@ -13,9 +13,9 @@ export default function CardGrid({ className = '', items }) {
         );
 
         return item.href.startsWith('/') ? (
-          <Link key={item.title} to={item.href}>{content}</Link>
+          <Link key={`${item.href}-${index}`} to={item.href}>{content}</Link>
         ) : (
-          <a key={item.title} href={item.href}>{content}</a>
+          <a key={`${item.href}-${index}`} href={item.href}>{content}</a>
         );
       })}
     </section>
